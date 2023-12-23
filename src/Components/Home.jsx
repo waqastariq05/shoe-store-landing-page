@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import HeroSection from './HeroSection'
 import Card from './Card'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Home = () => {
-    const data = [<Card />, <Card />, <Card />, <Card />, <Card />, <Card />]
+    const [products, setProducts] = useState([])
+
+    const fetchData = async () => {
+        try {
+            const { data } = await axios.get("https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline")
+            setProducts(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
     return (
         <>
             <HeroSection />
@@ -13,10 +28,10 @@ const Home = () => {
                     Products
                 </h2>
                 <div className="w-[1180px] flex items-center justify-between gap-y-14 flex-wrap">
-                    {data.map((card, index) => {
+                    {products && products.map((data) => {
                         return (
-                            <div key={index}>
-                                <Link to={`/product/${index + 1}`} >{card}</Link>
+                            <div key={data.id}>
+                                <Card data={data} />
                             </div>
                         )
                     })}

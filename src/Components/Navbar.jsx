@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import logo from '../assets/image 1.png'
 import cartIcon from '../assets/Vector.png'
+import { CartContext } from '../CartContext'
 
 const Navbar = () => {
+    const { cart } = useContext(CartContext)
     return (
         <div className="absolute top-0 left-0 right-0 flex items-center justify-between mx-auto w-[1180px] h-[105px] font-roboto">
             <img
@@ -18,7 +20,7 @@ const Navbar = () => {
             </nav>
             <div className="rounded-xl bg-deeppink w-[88px] h-[40px] text-white flex items-center justify-center gap-2">
                 <b className="tracking-[0.02em] uppercase">
-                    10
+                    {cart?.totalItems}
                 </b>
                 <img
                     className="h-[47.62%] w-[20.45%] max-w-full overflow-hidden max-h-full object-cover"
